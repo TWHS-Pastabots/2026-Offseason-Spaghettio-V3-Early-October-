@@ -16,6 +16,9 @@ public final class Configs {
     
     public static final SparkMaxConfig intakeConfig = new SparkMaxConfig();
 
+    public static final SparkMaxConfig shooterTopConfig = new SparkMaxConfig();
+    public static final SparkMaxConfig shooterFollowerConfig = new SparkMaxConfig();
+
     static {
       // Use module constants to calculate conversion factors and feed forward gain.
       double drivingFactor = ModuleConstants.kWheelDiameterMeters * Math.PI 
@@ -68,6 +71,17 @@ public final class Configs {
           .positionWrappingInputRange(0, turningFactor);
       
       intakeConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(20)
+        .inverted(false);
+
+      
+      shooterTopConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(20)
+        .inverted(false);
+
+      shooterFollowerConfig
         .idleMode(IdleMode.kBrake)
         .smartCurrentLimit(20)
         .inverted(false);

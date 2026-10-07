@@ -79,6 +79,8 @@ public class RobotContainer {
    * {@link JoystickButton}.
    */
   private void configureButtonBindings() {
+    
+    //Driver Controls
     new JoystickButton(m_driverController, Button.kR1.value)
         .whileTrue(new RunCommand(
             () -> m_robotDrive.setX(),
@@ -89,7 +91,9 @@ public class RobotContainer {
             () -> m_robotDrive.zeroHeading(),
             m_robotDrive));
     
+    //Operator Controls
     m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.intake(), m_intake));
+    m_operatorController.leftBumper().whileTrue(new RunCommand(() -> m_intake.reverseIntake(), m_intake));
   }
 
   /**

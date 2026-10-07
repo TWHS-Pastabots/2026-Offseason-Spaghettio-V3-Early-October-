@@ -25,6 +25,11 @@ public final class Constants {
 
   public static final class Ports {
     public static final int intake = 10;
+    
+    public static final int shooterPivot = 9;
+    public static final int shooterFeeder = 11;
+    public static final int shooterTop = 12;
+    public static final int shooterFollower = 13;
   }
 
   public static final class DriveConstants {

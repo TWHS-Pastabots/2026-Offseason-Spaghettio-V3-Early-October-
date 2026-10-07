@@ -28,6 +28,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
 
 /*
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -40,6 +41,7 @@ public class RobotContainer {
   // The robot's subsystems
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final Intake m_intake = new Intake();
+  private final Shooter m_shooter = new Shooter();
 
   // The driver's and Operator's controllers
   CommandXboxController driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
@@ -67,6 +69,7 @@ public class RobotContainer {
             m_robotDrive));
     
     m_intake.setDefaultCommand(new RunCommand(()-> m_intake.setIntake(0), m_intake));
+    m_shooter.setDefaultCommand(new RunCommand(()-> m_shooter.setShooter(0), m_shooter));
   }
 
   /**
@@ -94,6 +97,11 @@ public class RobotContainer {
     //Operator Controls
     m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.intake(), m_intake));
     m_operatorController.leftBumper().whileTrue(new RunCommand(() -> m_intake.reverseIntake(), m_intake));
+    m_operatorController.a().onTrue(new RunCommand(() -> m_intake.stopIntake(), m_intake));
+
+    m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> m_shooter.launch(), m_shooter));
+    m_operatorController.rightBumper().whileTrue(new RunCommand(() -> m_shooter.reverseLaunch(), m_shooter));
+    m_operatorController.b().onTrue(new RunCommand(() -> m_shooter.stopShooter(), m_shooter));
   }
 
   /**

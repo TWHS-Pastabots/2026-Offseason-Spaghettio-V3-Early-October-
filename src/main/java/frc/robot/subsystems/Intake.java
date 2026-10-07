@@ -21,7 +21,7 @@ public class Intake extends SubsystemBase{
 
     public Intake() 
     {
-         intakeMotor.configure(Configs.EasySwerveModule.intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        intakeMotor.configure(Configs.EasySwerveModule.intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     
@@ -39,9 +39,7 @@ public class Intake extends SubsystemBase{
     {
         intakeMotor.set(0);
     }
-    public void set(double speed){
-        intakeMotor.set(speed);
-    }
+    
     public void setIntake(double speed)
     {
         intakeMotor.set(speed);

@@ -52,4 +52,6 @@ public class Shooter extends SubsystemBase{
         shooterTopMotor.set(speed);
         shooterFollowerMotor.set(speed * -1);
     }
+
+    
 }

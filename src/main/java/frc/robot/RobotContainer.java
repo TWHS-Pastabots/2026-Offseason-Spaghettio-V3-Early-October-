@@ -44,10 +44,10 @@ public class RobotContainer {
   private final Shooter m_shooter = new Shooter();
 
   // The driver's and Operator's controllers
-  CommandXboxController driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
-  XboxController m_driverController = new XboxController(OIConstants.kDriverControllerPort);
-  XboxController operatorController = new XboxController(OIConstants.kOperatorControllerPort);
-  CommandXboxController m_operatorController = new CommandXboxController(OIConstants.kOperatorControllerPort);
+  CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
+  XboxController driverController = new XboxController(OIConstants.kDriverControllerPort);
+  // XboxController operatorController = new XboxController(OIConstants.kOperatorControllerPort);
+  // CommandXboxController m_operatorController = new CommandXboxController(OIConstants.kOperatorControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -84,24 +84,17 @@ public class RobotContainer {
   private void configureButtonBindings() {
     
     //Driver Controls
-    new JoystickButton(m_driverController, Button.kR1.value)
-        .whileTrue(new RunCommand(
-            () -> m_robotDrive.setX(),
-            m_robotDrive));
-
-    new JoystickButton(m_driverController, XboxController.Button.kStart.value)
-        .onTrue(new InstantCommand(
-            () -> m_robotDrive.zeroHeading(),
-            m_robotDrive));
+    m_driverController.x().onTrue(new RunCommand(()->m_robotDrive.setX()));
+    m_driverController.start().onTrue(new RunCommand(()-> m_robotDrive.zeroHeading()));
     
-    //Operator Controls
-    m_operatorController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.intake(), m_intake));
-    m_operatorController.leftBumper().whileTrue(new RunCommand(() -> m_intake.reverseIntake(), m_intake));
-    m_operatorController.a().onTrue(new RunCommand(() -> m_intake.stopIntake(), m_intake));
+    //"Operator" Controls
+    m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.intake(), m_intake));
+    m_driverController.leftBumper().whileTrue(new RunCommand(() -> m_intake.reverseIntake(), m_intake));
+    m_driverController.a().onTrue(new RunCommand(() -> m_intake.stopIntake(), m_intake));
 
-    m_operatorController.rightTrigger().whileTrue(new RunCommand(() -> m_shooter.launch(), m_shooter));
-    m_operatorController.rightBumper().whileTrue(new RunCommand(() -> m_shooter.reverseLaunch(), m_shooter));
-    m_operatorController.b().onTrue(new RunCommand(() -> m_shooter.stopShooter(), m_shooter));
+    m_driverController.rightTrigger().whileTrue(new RunCommand(() -> m_shooter.launch(), m_shooter));
+    m_driverController.rightBumper().whileTrue(new RunCommand(() -> m_shooter.reverseLaunch(), m_shooter));
+    m_driverController.b().onTrue(new RunCommand(() -> m_shooter.stopShooter(), m_shooter));
   }
 
   /**

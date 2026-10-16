@@ -18,6 +18,7 @@ public final class Configs {
 
     public static final SparkMaxConfig shooterTopConfig = new SparkMaxConfig();
     public static final SparkMaxConfig shooterFollowerConfig = new SparkMaxConfig();
+    public static final SparkMaxConfig shooterPivotConfig = new SparkMaxConfig();
 
     static {
       // Use module constants to calculate conversion factors and feed forward gain.
@@ -85,6 +86,17 @@ public final class Configs {
         .idleMode(IdleMode.kBrake)
         .smartCurrentLimit(20)
         .inverted(false);
+
+      shooterPivotConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(40)
+        .inverted(false)
+        .closedLoop
+        .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
+        .pid(0, 0, 0)
+        .positionWrappingEnabled(false)
+        .outputRange(-1, 1);
+        shooterPivotConfig.absoluteEncoder.positionConversionFactor(360);
     }
   }
 }

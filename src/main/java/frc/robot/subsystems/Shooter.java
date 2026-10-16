@@ -59,10 +59,10 @@ public class Shooter extends SubsystemBase{
         shooterFollowerMotor.set(speed * -1);
     }
 
-    // public double down = 0.15;
-	// public double mid = 0.07;
-	// public double up = 0.05;
-	// public double setpoint = down;
+    public double down = 0.05;
+	public double mid = 0.07;
+	public double up = 0.15;
+	public double setpoint = down;
 
     // private void change()
 	// {
@@ -72,9 +72,9 @@ public class Shooter extends SubsystemBase{
 	// 		setpoint = down;
 	// }
 
-    // public void setSetpoint(double point){
-    //     setpoint = point;
-    // }
+    public void setSetpoint(double point){
+        setpoint = point;
+    }
 
     @Override
     public void periodic()

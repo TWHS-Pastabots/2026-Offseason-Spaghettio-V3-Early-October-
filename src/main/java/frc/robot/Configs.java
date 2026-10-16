@@ -18,6 +18,7 @@ public final class Configs {
 
     public static final SparkMaxConfig shooterTopConfig = new SparkMaxConfig();
     public static final SparkMaxConfig shooterFollowerConfig = new SparkMaxConfig();
+    public static final SparkMaxConfig shooterFeederConfig = new SparkMaxConfig();
     public static final SparkMaxConfig shooterPivotConfig = new SparkMaxConfig();
 
     static {
@@ -83,6 +84,11 @@ public final class Configs {
         .inverted(false);
 
       shooterFollowerConfig
+        .idleMode(IdleMode.kBrake)
+        .smartCurrentLimit(20)
+        .inverted(false);
+
+      shooterFeederConfig
         .idleMode(IdleMode.kBrake)
         .smartCurrentLimit(20)
         .inverted(false);

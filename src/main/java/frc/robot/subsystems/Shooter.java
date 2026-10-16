@@ -32,7 +32,8 @@ public class Shooter extends SubsystemBase{
     {
         shooterTopMotor.configure(Configs.EasySwerveModule.shooterTopConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
         shooterFollowerMotor.configure(Configs.EasySwerveModule.shooterFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
-        shooterPivotMotor.configure(Configs.EasySwerveModule.shooterFollowerConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        shooterFeederMotor.configure(Configs.EasySwerveModule.shooterFeederConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);        
+        shooterPivotMotor.configure(Configs.EasySwerveModule.shooterPivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
     }
 
     public void launch()
@@ -47,10 +48,22 @@ public class Shooter extends SubsystemBase{
         shooterFollowerMotor.set(0.5);
     }
 
+    public void feed()
+    {
+        shooterFeederMotor.set(0.5);
+    }
+
+    public void reverseFeed()
+    {
+        shooterFeederMotor.set(-0.5);
+    }
+
     public void stopShooter() 
     {
         shooterTopMotor.set(0);
         shooterFollowerMotor.set(0);
+        shooterFeederMotor.set(0);
+        shooterPivotMotor.set(0);
     }
     
     public void setShooter(double speed)

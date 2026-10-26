@@ -24,7 +24,7 @@ public class Shooter extends SubsystemBase{
     private SparkMax shooterFeederMotor = new SparkMax(Ports.shooterFeeder, MotorType.kBrushless);
     private SparkMax shooterPivotMotor = new SparkMax(Ports.shooterPivot, MotorType.kBrushless);
     
-    private ArmFeedforward feedforward = new ArmFeedforward(0,.005,0);
+    private ArmFeedforward feedforward = new ArmFeedforward(0,.0,0);
 
     private SparkClosedLoopController controller = shooterPivotMotor.getClosedLoopController();
 
@@ -38,14 +38,14 @@ public class Shooter extends SubsystemBase{
 
     public void launch()
     {
-        shooterTopMotor.set(0.5);
-        shooterFollowerMotor.set(-0.5);
+        shooterTopMotor.set(-0.5);
+        shooterFollowerMotor.set(0.5);
     }
 
     public void reverseLaunch()
     {
-        shooterTopMotor.set(-0.5);
-        shooterFollowerMotor.set(0.5);
+        shooterTopMotor.set(0.5);
+        shooterFollowerMotor.set(-0.5);
     }
 
     public void feed()
@@ -72,10 +72,10 @@ public class Shooter extends SubsystemBase{
         shooterFollowerMotor.set(speed * -1);
     }
 
-    public double down = 0.05;
-	public double mid = 0.07;
-	public double up = 0.15;
-	public double setpoint = down;
+    // public double down = 0.05;
+	// public double mid = 0.07;
+	// public double up = 0.15;
+	// public double setpoint = down;
 
     // private void change()
 	// {
@@ -85,18 +85,18 @@ public class Shooter extends SubsystemBase{
 	// 		setpoint = down;
 	// }
 
-    public void setSetpoint(double point){
-        setpoint = point;
-    }
+    // public void setSetpoint(double point){
+    //     setpoint = point;
+    // }
 
-    @Override
-    public void periodic()
-    {
-		controller.setSetpoint(setpoint, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedforward.calculate(Math.toRadians(shooterPivotMotor.getEncoder().getPosition()/2), 0));
+    // @Override
+    // public void periodic()
+    // {
+	// 	controller.setSetpoint(setpoint, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedforward.calculate(Math.toRadians(shooterPivotMotor.getEncoder().getPosition()/2), 0));
 
-		SmartDashboard.putNumber("Pivot Position", shooterPivotMotor.getAbsoluteEncoder().getPosition());
-        shooterPivotMotor.set(0.5);
-    }
+	// 	SmartDashboard.putNumber("Pivot Position", shooterPivotMotor.getAbsoluteEncoder().getPosition());
+    //     shooterPivotMotor.set(0.5);
+    // }
 
 
     // /**

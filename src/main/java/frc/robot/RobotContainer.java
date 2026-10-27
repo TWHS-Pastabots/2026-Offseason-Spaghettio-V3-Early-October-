@@ -94,10 +94,9 @@ public class RobotContainer {
 
     m_driverController.rightTrigger().whileTrue(new RunCommand(() -> m_shooter.launch(), m_shooter));
     m_driverController.rightBumper().whileTrue(new RunCommand(() -> m_shooter.reverseLaunch(), m_shooter));
-    m_driverController.povLeft().whileTrue(new RunCommand(() -> m_shooter.feed(), m_shooter));
-    m_driverController.povRight().whileTrue(new RunCommand(() -> m_shooter.reverseFeed(), m_shooter));
+    m_driverController.povLeft().whileTrue(new RunCommand(() -> m_shooter.feedIn(), m_shooter));
+    m_driverController.povRight().whileTrue(new RunCommand(() -> m_shooter.feedOut(), m_shooter));
     m_driverController.b().onTrue(new RunCommand(() -> m_shooter.stopShooter(), m_shooter));
-
   }
 
   /**

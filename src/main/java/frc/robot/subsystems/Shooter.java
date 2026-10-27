@@ -48,12 +48,12 @@ public class Shooter extends SubsystemBase{
         shooterFollowerMotor.set(-0.5);
     }
 
-    public void feed()
+    public void feedIn()
     {
         shooterFeederMotor.set(0.5);
     }
 
-    public void reverseFeed()
+    public void feedOut()
     {
         shooterFeederMotor.set(-0.5);
     }

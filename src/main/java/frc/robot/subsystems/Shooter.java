@@ -24,7 +24,7 @@ public class Shooter extends SubsystemBase{
     private SparkMax shooterFeederMotor = new SparkMax(Ports.shooterFeeder, MotorType.kBrushless);
     private SparkMax shooterPivotMotor = new SparkMax(Ports.shooterPivot, MotorType.kBrushless);
     
-    private ArmFeedforward feedforward = new ArmFeedforward(0,.0,0);
+    private ArmFeedforward feedforward = new ArmFeedforward(0.01,.0,0);
 
     private SparkClosedLoopController controller = shooterPivotMotor.getClosedLoopController();
 
@@ -72,42 +72,42 @@ public class Shooter extends SubsystemBase{
         shooterFollowerMotor.set(speed * -1);
     }
 
-    // public double down = 0.05;
+    public double down = 0.15;
 	// public double mid = 0.07;
-	// public double up = 0.15;
-	// public double setpoint = down;
+	public double up = 0.05;
+	public double setpoint = 0;
 
-    // private void change()
-	// {
-	// 	if(setpoint == down)
-	// 		setpoint = up;
-	// 	else
-	// 		setpoint = down;
-	// }
+    private void change()
+	{
+		if(setpoint == up)
+			setpoint = down;
+		else
+			setpoint = up;
+	}
 
-    // public void setSetpoint(double point){
-    //     setpoint = point;
-    // }
+    public void setSetpoint(double point){
+        setpoint = point;
+    }
 
-    // @Override
-    // public void periodic()
-    // {
-	// 	controller.setSetpoint(setpoint, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedforward.calculate(Math.toRadians(shooterPivotMotor.getEncoder().getPosition()/2), 0));
+    @Override
+    public void periodic()
+    {
+		controller.setSetpoint(setpoint, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedforward.calculate(Math.toRadians(shooterPivotMotor.getEncoder().getPosition()/2), 0));
 
-	// 	SmartDashboard.putNumber("Pivot Position", shooterPivotMotor.getAbsoluteEncoder().getPosition());
-    //     shooterPivotMotor.set(0.5);
-    // }
+		SmartDashboard.putNumber("Pivot Position", shooterPivotMotor.getAbsoluteEncoder().getPosition());
+        shooterPivotMotor.set(.5);
+    }
 
 
-    // /**
-	//  * Alternates between the up and down setpoints for the pivot
-	//  * 
-	//  * @return command to flip the pivot setpoints1
-	//  */
-    // public Command flip()
-	// {
-	// 	return new InstantCommand(()->change());
-	// }
+    /**
+	 * Alternates between the up and down setpoints for the pivot
+	 * 
+	 * @return command to flip the pivot setpoints1
+	 */
+    public Command flip()
+	{
+		return new InstantCommand(()->change());
+	}
     
     // /**
 	//  * 
@@ -118,19 +118,19 @@ public class Shooter extends SubsystemBase{
 	// 	return new InstantCommand(()-> {setpoint = setpoint==down?mid:down;}, this);
 	// }
 
-    // /**
-	//  * raises the low "intaking setpoint"
-	//  */
-	// public void upMore() 
-	// {
-	// 	down += 5;
-	// }
+    /**
+	 * raises the low "intaking setpoint"
+	 */
+	public void upMore() 
+	{
+		setpoint += 5;
+	}
 
-    // /**
-	//  * lowers the low "intaking setpoint"
-	//  */
-	// public void downMore() 
-	// {
-	// 	down -= 5;
-	// }
+    /**
+	 * lowers the low "intaking setpoint"
+	 */
+	public void downMore() 
+	{
+		setpoint -= 5;
+	}
 }

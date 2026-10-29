@@ -42,7 +42,7 @@ public class EasySwerveModule {
    * Encoder V2.
    */
   public EasySwerveModule(int drivingCANId, int turningCANId, double chassisAngularOffset,
-      boolean drivingMotorOnBottom, boolean turningMotorOnBottom, boolean isTestMotor) {
+      boolean drivingMotorOnBottom, boolean turningMotorOnBottom) {
     m_drivingSpark = new SparkFlex(drivingCANId, MotorType.kBrushless);
     m_turningSpark = new SparkMax(turningCANId, MotorType.kBrushless);
 

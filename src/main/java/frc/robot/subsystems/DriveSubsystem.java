@@ -27,7 +27,6 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kFrontLeftChassisAngularOffset,
       DriveConstants.kFrontLeftDrivingMotorOnBottom,
       DriveConstants.kFrontLeftTurningMotorOnBottom,
-      false
     );
 
   private final EasySwerveModule m_frontRight = new EasySwerveModule(
@@ -36,7 +35,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kFrontRightChassisAngularOffset,
       DriveConstants.kFrontRightDrivingMotorOnBottom,
       DriveConstants.kFrontRightTurningMotorOnBottom,
-    false);
+    );
 
   private final EasySwerveModule m_rearLeft = new EasySwerveModule(
       DriveConstants.kRearLeftDrivingCanId,
@@ -44,7 +43,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kRearLeftChassisAngularOffset,
       DriveConstants.kRearLeftDrivingMotorOnBottom,
       DriveConstants.kRearLeftTurningMotorOnBottom,
-    false);
+    );
 
   private final EasySwerveModule m_rearRight = new EasySwerveModule(
       DriveConstants.kRearRightDrivingCanId,
@@ -52,7 +51,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kRearRightChassisAngularOffset,
       DriveConstants.kRearRightDrivingMotorOnBottom,
       DriveConstants.kRearRightTurningMotorOnBottom,
-    true);
+    );
 
   // The gyro sensor
   private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();

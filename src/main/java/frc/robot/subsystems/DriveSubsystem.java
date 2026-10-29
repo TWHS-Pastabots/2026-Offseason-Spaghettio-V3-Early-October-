@@ -26,28 +26,33 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kFrontLeftTurningCanId,
       DriveConstants.kFrontLeftChassisAngularOffset,
       DriveConstants.kFrontLeftDrivingMotorOnBottom,
-      DriveConstants.kFrontLeftTurningMotorOnBottom);
+      DriveConstants.kFrontLeftTurningMotorOnBottom,
+      false
+    );
 
   private final EasySwerveModule m_frontRight = new EasySwerveModule(
       DriveConstants.kFrontRightDrivingCanId,
       DriveConstants.kFrontRightTurningCanId,
       DriveConstants.kFrontRightChassisAngularOffset,
       DriveConstants.kFrontRightDrivingMotorOnBottom,
-      DriveConstants.kFrontRightTurningMotorOnBottom);
+      DriveConstants.kFrontRightTurningMotorOnBottom,
+    false);
 
   private final EasySwerveModule m_rearLeft = new EasySwerveModule(
       DriveConstants.kRearLeftDrivingCanId,
       DriveConstants.kRearLeftTurningCanId,
       DriveConstants.kRearLeftChassisAngularOffset,
       DriveConstants.kRearLeftDrivingMotorOnBottom,
-      DriveConstants.kRearLeftTurningMotorOnBottom);
+      DriveConstants.kRearLeftTurningMotorOnBottom,
+    false);
 
   private final EasySwerveModule m_rearRight = new EasySwerveModule(
       DriveConstants.kRearRightDrivingCanId,
       DriveConstants.kRearRightTurningCanId,
       DriveConstants.kRearRightChassisAngularOffset,
       DriveConstants.kRearRightDrivingMotorOnBottom,
-      DriveConstants.kRearRightTurningMotorOnBottom);
+      DriveConstants.kRearRightTurningMotorOnBottom,
+    true);
 
   // The gyro sensor
   private final ADIS16470_IMU m_gyro = new ADIS16470_IMU();

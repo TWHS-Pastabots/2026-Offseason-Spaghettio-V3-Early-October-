@@ -24,7 +24,7 @@ public class Shooter extends SubsystemBase{
     private SparkMax shooterFeederMotor = new SparkMax(Ports.shooterFeeder, MotorType.kBrushless);
     private SparkMax shooterPivotMotor = new SparkMax(Ports.shooterPivot, MotorType.kBrushless);
     
-    private ArmFeedforward feedforward = new ArmFeedforward(0.01,.0,0);
+    // private ArmFeedforward feedforward = new ArmFeedforward(0.01,.0,0);
 
     private SparkClosedLoopController controller = shooterPivotMotor.getClosedLoopController();
 
@@ -72,65 +72,65 @@ public class Shooter extends SubsystemBase{
         shooterFollowerMotor.set(speed * -1);
     }
 
-    public double down = 0.15;
-	// public double mid = 0.07;
-	public double up = 0.05;
-	public double setpoint = 0;
+    // public double down = 0.15;
+	// // public double mid = 0.07;
+	// public double up = 0.05;
+	// public double setpoint = 0;
 
-    private void change()
-	{
-		if(setpoint == up)
-			setpoint = down;
-		else
-			setpoint = up;
-	}
-
-    public void setSetpoint(double point){
-        setpoint = point;
-    }
-
-    @Override
-    public void periodic()
-    {
-		controller.setSetpoint(setpoint, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedforward.calculate(Math.toRadians(shooterPivotMotor.getEncoder().getPosition()/2), 0));
-
-		SmartDashboard.putNumber("Pivot Position", shooterPivotMotor.getAbsoluteEncoder().getPosition());
-        shooterPivotMotor.set(.5);
-    }
-
-
-    /**
-	 * Alternates between the up and down setpoints for the pivot
-	 * 
-	 * @return command to flip the pivot setpoints1
-	 */
-    public Command flip()
-	{
-		return new InstantCommand(()->change());
-	}
-    
-    // /**
-	//  * 
-	//  * @return command that is used as a way to jostle fuel within the hopper
-	//  */
-    // public Command mid()
+    // private void change()
 	// {
-	// 	return new InstantCommand(()-> {setpoint = setpoint==down?mid:down;}, this);
+	// 	if(setpoint == up)
+	// 		setpoint = down;
+	// 	else
+	// 		setpoint = up;
 	// }
 
-    /**
-	 * raises the low "intaking setpoint"
-	 */
-	public void upMore() 
-	{
-		setpoint += 5;
-	}
+    // public void setSetpoint(double point){
+    //     setpoint = point;
+    // }
 
-    /**
-	 * lowers the low "intaking setpoint"
-	 */
-	public void downMore() 
-	{
-		setpoint -= 5;
-	}
+    // @Override
+    // public void periodic()
+    // {
+	// 	controller.setSetpoint(setpoint, ControlType.kPosition, ClosedLoopSlot.kSlot0, feedforward.calculate(Math.toRadians(shooterPivotMotor.getEncoder().getPosition()/2), 0));
+
+	// 	SmartDashboard.putNumber("Pivot Position", shooterPivotMotor.getAbsoluteEncoder().getPosition());
+    //     shooterPivotMotor.set(.5);
+    // }
+
+
+    // /**
+	//  * Alternates between the up and down setpoints for the pivot
+	//  * 
+	//  * @return command to flip the pivot setpoints1
+	//  */
+    // public Command flip()
+	// {
+	// 	return new InstantCommand(()->change());
+	// }
+    
+    // // /**
+	// //  * 
+	// //  * @return command that is used as a way to jostle fuel within the hopper
+	// //  */
+    // // public Command mid()
+	// // {
+	// // 	return new InstantCommand(()-> {setpoint = setpoint==down?mid:down;}, this);
+	// // }
+
+    // /**
+	//  * raises the low "intaking setpoint"
+	//  */
+	// public void upMore() 
+	// {
+	// 	setpoint += 5;
+	// }
+
+    // /**
+	//  * lowers the low "intaking setpoint"
+	//  */
+	// public void downMore() 
+	// {
+	// 	setpoint -= 5;
+	// }
 }

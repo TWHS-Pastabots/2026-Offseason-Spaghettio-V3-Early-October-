@@ -26,7 +26,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kFrontLeftTurningCanId,
       DriveConstants.kFrontLeftChassisAngularOffset,
       DriveConstants.kFrontLeftDrivingMotorOnBottom,
-      DriveConstants.kFrontLeftTurningMotorOnBottom,
+      DriveConstants.kFrontLeftTurningMotorOnBottom
     );
 
   private final EasySwerveModule m_frontRight = new EasySwerveModule(
@@ -34,7 +34,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kFrontRightTurningCanId,
       DriveConstants.kFrontRightChassisAngularOffset,
       DriveConstants.kFrontRightDrivingMotorOnBottom,
-      DriveConstants.kFrontRightTurningMotorOnBottom,
+      DriveConstants.kFrontRightTurningMotorOnBottom
     );
 
   private final EasySwerveModule m_rearLeft = new EasySwerveModule(
@@ -42,7 +42,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kRearLeftTurningCanId,
       DriveConstants.kRearLeftChassisAngularOffset,
       DriveConstants.kRearLeftDrivingMotorOnBottom,
-      DriveConstants.kRearLeftTurningMotorOnBottom,
+      DriveConstants.kRearLeftTurningMotorOnBottom
     );
 
   private final EasySwerveModule m_rearRight = new EasySwerveModule(
@@ -50,7 +50,7 @@ public class DriveSubsystem extends SubsystemBase {
       DriveConstants.kRearRightTurningCanId,
       DriveConstants.kRearRightChassisAngularOffset,
       DriveConstants.kRearRightDrivingMotorOnBottom,
-      DriveConstants.kRearRightTurningMotorOnBottom,
+      DriveConstants.kRearRightTurningMotorOnBottom
     );
 
   // The gyro sensor

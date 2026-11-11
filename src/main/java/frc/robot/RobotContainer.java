@@ -88,15 +88,27 @@ public class RobotContainer {
     m_driverController.start().onTrue(new RunCommand(()-> m_robotDrive.zeroHeading()));
     
     //"Operator" Controls
-    m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.intake(), m_intake));
+    // m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.intake(), m_intake));
+    m_driverController.leftTrigger().whileTrue(new RunCommand(() -> {
+      m_shooter.setSetpoint(8.5);
+      m_intake.intake();
+      m_shooter.feedIn();
+    }, m_shooter, m_intake));
+
     m_driverController.leftBumper().whileTrue(new RunCommand(() -> m_intake.reverseIntake(), m_intake));
     m_driverController.a().onTrue(new RunCommand(() -> m_intake.stopIntake(), m_intake));
 
-    m_driverController.rightTrigger().whileTrue(new RunCommand(() -> m_shooter.launch(), m_shooter));
+
+    m_driverController.rightTrigger().whileTrue(new RunCommand(() -> {
+      m_shooter.launch();
+    }, m_shooter));
+
     m_driverController.rightBumper().whileTrue(new RunCommand(() -> m_shooter.reverseLaunch(), m_shooter));
     m_driverController.povLeft().whileTrue(new RunCommand(() -> m_shooter.feedIn(), m_shooter));
     m_driverController.povRight().whileTrue(new RunCommand(() -> m_shooter.feedOut(), m_shooter));
     m_driverController.b().onTrue(new RunCommand(() -> m_shooter.stopShooter(), m_shooter));
+
+    m_driverController.y().onTrue(m_shooter.flip());
   }
 
   /**

@@ -93,6 +93,14 @@ public class EasySwerveModule {
         new Rotation2d(m_turningEncoder.getPosition() - m_chassisAngularOffset));
   }
 
+  public double getDriveEncoderValue(){
+      return m_drivingEncoder.getPosition();
+  }
+  
+    public double getTurnEncoderValue(){
+      return m_turningEncoder.getPosition();
+  }
+
   /**
    * Sets the desired state for the module.
    *

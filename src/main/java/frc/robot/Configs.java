@@ -99,7 +99,7 @@ public final class Configs {
         .inverted(false)
         .closedLoop
         .feedbackSensor(FeedbackSensor.kPrimaryEncoder)
-        .pid(0.01, 0, 0)
+        .pid(0.045, 0, 0)
         .positionWrappingEnabled(false)
         .outputRange(-1, 1);
         shooterPivotConfig.absoluteEncoder.positionConversionFactor(360);

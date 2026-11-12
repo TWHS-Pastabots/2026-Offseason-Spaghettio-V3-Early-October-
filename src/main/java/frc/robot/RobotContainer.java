@@ -83,31 +83,37 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     
-    //Driver Controls
+    /**
+     * Driver Controls
+     */
+
     m_driverController.x().onTrue(new RunCommand(()->m_robotDrive.setX()));
     m_driverController.start().onTrue(new RunCommand(()-> m_robotDrive.zeroHeading()));
     
-    //"Operator" Controls
-    // m_driverController.leftTrigger().whileTrue(new RunCommand(() -> m_intake.intake(), m_intake));
+
+    /**
+     * "Operator" Controls
+     */
+
+    // Starts Handoff when left trigger is pressed
     m_driverController.leftTrigger().whileTrue(new RunCommand(() -> {
       m_shooter.setSetpoint(8.5);
       m_intake.intake();
       m_shooter.feedIn();
     }, m_shooter, m_intake));
 
+    // Intake Controls
     m_driverController.leftBumper().whileTrue(new RunCommand(() -> m_intake.reverseIntake(), m_intake));
     m_driverController.a().onTrue(new RunCommand(() -> m_intake.stopIntake(), m_intake));
-
-
+    
+    //Shooter Controls
     m_driverController.rightTrigger().whileTrue(new RunCommand(() -> {
       m_shooter.launch();
     }, m_shooter));
-
     m_driverController.rightBumper().whileTrue(new RunCommand(() -> m_shooter.reverseLaunch(), m_shooter));
     m_driverController.povLeft().whileTrue(new RunCommand(() -> m_shooter.feedIn(), m_shooter));
     m_driverController.povRight().whileTrue(new RunCommand(() -> m_shooter.feedOut(), m_shooter));
     m_driverController.b().onTrue(new RunCommand(() -> m_shooter.stopShooter(), m_shooter));
-
     m_driverController.y().onTrue(m_shooter.flip());
   }
 

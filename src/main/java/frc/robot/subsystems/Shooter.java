@@ -38,8 +38,8 @@ public class Shooter extends SubsystemBase{
 
     public void launch()
     {
-        shooterTopMotor.set(-0.5);
-        shooterFollowerMotor.set(0.5);
+        shooterTopMotor.set(-1);
+        shooterFollowerMotor.set(1);
     }
 
     public void reverseLaunch()
@@ -50,12 +50,12 @@ public class Shooter extends SubsystemBase{
 
     public void feedIn()
     {
-        shooterFeederMotor.set(0.75);
+        shooterFeederMotor.set(1);
     }
 
     public void feedOut()
     {
-        shooterFeederMotor.set(-0.75);
+        shooterFeederMotor.set(-1);
     }
 
     public void stopShooter() 
@@ -69,10 +69,10 @@ public class Shooter extends SubsystemBase{
     {
         shooterTopMotor.set(speed);
         shooterFollowerMotor.set(speed * -1);
+        shooterFeederMotor.set(speed);
     }
 
     public double down = 8.5;
-	// public double mid = 0.07;
 	public double up = 2;
 	public double setpoint = up;
     
@@ -107,14 +107,6 @@ public class Shooter extends SubsystemBase{
 		return new InstantCommand(()->change());
 	}
     
-    // /**
-	//  * 
-	//  * @return command that is used as a way to jostle fuel within the hopper
-	//  */
-    // public Command mid()
-	// {
-	// 	return new InstantCommand(()-> {setpoint = setpoint==down?mid:down;}, this);
-	// }
 
     /**
 	 * raises the low "intaking setpoint"

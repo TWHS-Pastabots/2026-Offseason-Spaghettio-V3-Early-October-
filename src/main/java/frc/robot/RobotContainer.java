@@ -42,12 +42,11 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final Intake m_intake = new Intake();
   private final Shooter m_shooter = new Shooter();
+  private final double demoSpeed = 0.25;
 
   // The driver's and Operator's controllers
   CommandXboxController m_driverController = new CommandXboxController(OIConstants.kDriverControllerPort);
   XboxController driverController = new XboxController(OIConstants.kDriverControllerPort);
-  // XboxController operatorController = new XboxController(OIConstants.kOperatorControllerPort);
-  // CommandXboxController m_operatorController = new CommandXboxController(OIConstants.kOperatorControllerPort);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -62,9 +61,9 @@ public class RobotContainer {
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
             () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(m_driverController.getLeftY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getLeftX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(m_driverController.getRightX(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftY() * demoSpeed, OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getLeftX() * demoSpeed, OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(m_driverController.getRightX() * demoSpeed, OIConstants.kDriveDeadband),
                 true),
             m_robotDrive));
     
@@ -108,8 +107,8 @@ public class RobotContainer {
     
     //Shooter Controls
     m_driverController.rightTrigger().whileTrue(new RunCommand(() -> {
-      m_shooter.launch();
       m_shooter.feedIn();
+      m_shooter.launch();
     }, m_shooter));
     m_driverController.rightBumper().whileTrue(new RunCommand(() -> m_shooter.reverseLaunch(), m_shooter));
     m_driverController.povLeft().whileTrue(new RunCommand(() -> m_shooter.feedIn(), m_shooter));

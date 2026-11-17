@@ -79,12 +79,12 @@ public final class Configs {
 
       
       shooterTopConfig
-        .idleMode(IdleMode.kBrake)
+        .idleMode(IdleMode.kCoast)
         .smartCurrentLimit(20)
         .inverted(false);
 
       shooterFollowerConfig
-        .idleMode(IdleMode.kBrake)
+        .idleMode(IdleMode.kCoast)
         .smartCurrentLimit(20)
         .inverted(false);
 

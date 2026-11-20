@@ -9,16 +9,24 @@ import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 public class DriveSubsystem extends SubsystemBase {
   // Create EasySwerveModules
@@ -73,6 +81,60 @@ public class DriveSubsystem extends SubsystemBase {
     // Usage reporting for EasySwerve template
     HAL.report(tResourceType.kResourceType_RobotDrive, tInstances.kRobotDriveSwerve_MaxSwerve);
     //TODO (dave): add EasySwerve to tInstances???
+
+    // Load PathPlanner RobotConfig settings safely
+    RobotConfig config;
+    try {
+      config = RobotConfig.fromGUISettings();
+    } catch (Exception e) {
+      e.printStackTrace();
+      // Manual fallback if pathplanner/settings.json is missing or invalid
+      try {
+        config = new RobotConfig(
+            42.273, // Robot Mass (kg)
+            6,  // Robot MOI (kg*m^2)
+            new com.pathplanner.lib.config.ModuleConfig(
+                0.051, // Wheel radius (meters)
+                DriveConstants.kMaxSpeedMetersPerSecond, // Max speed
+                1.2,   // Wheel COF
+                DCMotor.getNeoVortex(1), // Drive motor spec
+                DriveConstants.kMaxSpeedMetersPerSecond, // Max drive motor RPM/speed
+                1      // Number of drive motors per module
+            ),
+            new Translation2d[] {
+                new Translation2d(DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0),
+                new Translation2d(DriveConstants.kTrackWidth / 2.0, -DriveConstants.kWheelBase / 2.0),
+                new Translation2d(-DriveConstants.kTrackWidth / 2.0, DriveConstants.kWheelBase / 2.0),
+                new Translation2d(-DriveConstants.kTrackWidth / 2.0, -DriveConstants.kWheelBase / 2.0)
+            }
+        );
+      } catch (Exception ex) {
+        ex.printStackTrace();
+        config = null;
+      }
+    }
+
+    if (config != null) {
+      AutoBuilder.configure(
+          this::getPose,                  // Robot pose supplier
+          this::resetOdometry,            // Reset odometry supplier
+          this::getRobotRelativeSpeeds,   // ChassisSpeeds supplier
+          (speeds, feedforwards) -> driveRobotRelative(speeds),
+          new PPHolonomicDriveController(
+              new PIDConstants(5.0, 0.0, 0.0), // Translation PID
+              new PIDConstants(5.0, 0.0, 0.0)  // Rotation PID
+          ),
+          config,
+          () -> {
+            var alliance = DriverStation.getAlliance();
+            if (alliance.isPresent()) {
+              return alliance.get() == DriverStation.Alliance.Red;
+            }
+            return false;
+          },
+          this
+      );
+    }
   }
 
   @Override
@@ -89,7 +151,16 @@ public class DriveSubsystem extends SubsystemBase {
 
       SmartDashboard.putNumber("Back left turn encoder", m_rearLeft.getTurnEncoderValue());
       SmartDashboard.putNumber("Back left drive encoder", m_rearLeft.getDriveEncoderValue());
+      
+      // Output gyro status to SmartDashboard
+      SmartDashboard.putBoolean("Gyro Connected", m_gyro.isConnected());
 
+      // --- Display Pose2d on SmartDashboard ---
+      Pose2d currentPose = getPose();
+      SmartDashboard.putString("Robot Pose", currentPose.toString());
+      SmartDashboard.putNumber("Robot X (m)", currentPose.getX());
+      SmartDashboard.putNumber("Robot Y (m)", currentPose.getY());
+      SmartDashboard.putNumber("Robot Heading (deg)", currentPose.getRotation().getDegrees());
   }
 
   /**
@@ -199,5 +270,24 @@ public class DriveSubsystem extends SubsystemBase {
    */
   public double getTurnRate() {
     return m_gyro.getRate(IMUAxis.kZ) * (DriveConstants.kGyroReversed ? -1.0 : 1.0);
+  }
+
+
+  /** Returns the current robot-relative chassis speeds. */
+  public ChassisSpeeds getRobotRelativeSpeeds() {
+    return DriveConstants.kDriveKinematics.toChassisSpeeds(
+        m_frontLeft.getState(),
+        m_frontRight.getState(),
+        m_rearLeft.getState(),
+        m_rearRight.getState()
+    );
+  }
+
+  
+  /** Drives the robot using robot-relative chassis speeds. */
+  public void driveRobotRelative(ChassisSpeeds speeds) {
+    var swerveModuleStates = DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DriveConstants.kMaxSpeedMetersPerSecond);
+    setModuleStates(swerveModuleStates);
   }
 }
